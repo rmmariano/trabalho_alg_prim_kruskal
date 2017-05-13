@@ -1,0 +1,77 @@
+Instruções:
+
+Para melhor organização e evitar dor de cabeça, aconselho a todos a criarem uma branch própria e ir usando pull/push para manter sincronizado.
+
+Isto é bom, pois mantém pelo menos 1 branch (master) sincronizada com todo mundo, servindo como referência para nossas branchs.
+
+Obs.: é sempre bom avisar se Fulano está mexendo em alguma parte do repositório/código, para que os demais evitem mexer nessa mesma parte e dar algum problema.
+
+
+Instruções para quem é novo em Git:
+
+1) fazer um clone do repositório para sua máquina local:
+
+git clone git@github.com:rmmariano/trabalho_alg_prim_kruskal.git
+
+
+2) pelo terminal, entre na pasta e verifique se está tudo ok (precisa estar na master)
+
+git status
+
+Se aparecer algo como "On branch master . nothing to commit, working directory clean", então está tudo ok.
+
+
+3) crie uma nova branch com um nome único seu, exemplo:
+
+git branch dev_mariano
+
+
+4) troque da branch master (a que você está) para a sua criada anteriormente, exemplo:
+
+git checkout dev_mariano
+
+
+5) utilize "git status" novamente para verificar se está tudo ok, se aparecer algo parecido com a mensagem abaixo, então está tudo ok.
+
+"On branch dev_mariano
+nothing to commit, working directory clean"
+
+
+6) comece a mexer no projeto :D
+
+
+--> 7) IMPORTANTE: lembre-se de que, sempre que possível, verificar se na branch master há alguma modificação feita por algum colega, utilizando os seguintes comandos:
+
+git checkout master
+git pull origin master
+
+
+--> 7.5.1) se houver alguma modificação, então volte para a sua branch e faça o merge:
+
+git checkout dev_mariano
+git merge master
+
+--> 7.5.2) se não houver modificação, então é só voltar para sua branch e ser feliz :)
+
+git checkout dev_mariano
+
+
+8) após fazer modificações no projeto, faça commit na SUA BRANCH, com os seguintes comandos:
+
+git add .
+git commit -m "Commit de Teste"
+git push origin dev_mariano
+
+
+9) depois que você tiver certeza que suas modificações estão funcionando, você pode fazer o merge com a master :)
+
+git checkout master
+git merge dev_mariano
+git push origin master
+
+LEMBRE-SE de voltar para a sua branch para continuar as modificações:
+
+git checkout dev_mariano
+
+
+
