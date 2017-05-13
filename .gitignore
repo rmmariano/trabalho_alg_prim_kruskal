@@ -1,0 +1,8 @@
+# pasta de build do qtcreator
+build-*
+
+# arquivos latex
+*.aux
+*.log
+*.out
+*.backup
