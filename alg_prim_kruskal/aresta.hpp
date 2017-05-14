@@ -6,6 +6,8 @@
 class Aresta{
 public:
     Aresta();
+    Aresta(Vertice de, Vertice para, float peso) : de(de), para(para), peso(peso){}
+
     Vertice de;
     Vertice para;
     float peso;

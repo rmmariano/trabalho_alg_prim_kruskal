@@ -3,8 +3,6 @@
 
 #include "../algorithms/kruskal.hpp"
 
-
-
 void test_case_kruskal_01 () {
     cout << "Test Case Kruskal 01" << endl;
 

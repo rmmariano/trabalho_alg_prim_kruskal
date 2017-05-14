@@ -10,6 +10,7 @@ class Vertice{
 public:
     Vertice();
 
+    int id;
     string nome;
     //outros atributos...
 };

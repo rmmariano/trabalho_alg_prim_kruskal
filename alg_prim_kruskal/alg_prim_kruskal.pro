@@ -13,12 +13,11 @@ SOURCES += main.cpp \
     aresta.cpp
 
 HEADERS += \
-    algorithms/graph_def.hpp \
-    algorithms/graph.hpp \
     algorithms/kruskal.hpp \
     algorithms/prim.hpp \
     tests/test_case_prim.hpp \
     tests/test_case_kruskal.hpp \
     vertice.hpp \
-    aresta.hpp
+    aresta.hpp \
+    algorithms/graph.hpp
 
