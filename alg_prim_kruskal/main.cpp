@@ -24,6 +24,8 @@ int main(){
     else
         cout << "Aresta nao encontrada" << endl;
 
+    g.imprime();
+
     g.removeAresta(idv0, idv1);
 
 
