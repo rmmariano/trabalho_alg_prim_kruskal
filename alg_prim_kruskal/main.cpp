@@ -20,6 +20,8 @@ int main(){
 
     g.insereAresta(idv0, idv1, 2);  //insere aresta de v0 para v1 com peso 2
 
+    g.removeAresta(idv0, idv1);
+
 
 /*
     test_case_kruskal_01();
