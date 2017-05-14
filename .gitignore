@@ -7,4 +7,5 @@ build-*
 *.out
 *.backup
 
-*.pro.user
+alg_prim_kruskal/*.pro.user
+alg_prim_kruskal/*.user
