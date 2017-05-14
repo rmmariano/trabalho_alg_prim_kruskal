@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-
 #include "aresta.hpp"
 
 using namespace std;
@@ -15,7 +14,7 @@ class Graph {
         int insereVertice(Vertice& v);       //retorna ID do vertice inserido
         bool removeVertice(Vertice& v);      //retorna se foi removido
         Aresta insereAresta(int  id_v1, int id_v2, float peso);    //ret obj da aresta, nullptr se nao for possivel criar (nó nao existir)
-        Aresta verificaAresta(Vertice& v1, Vertice& v2);      //retorna obj da aresta, nullptr se nao existir
+        Aresta verificaAresta(int id_v1, int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(int id_v1, int id_v2);     //retorna se foi removido
         imprime();
 
@@ -32,6 +31,7 @@ class Graph {
         Graph&	operator=(Graph&);
 };
 
+//Construtor
 Graph::Graph(bool orientado) : orientado(orientado){
     numArestas = 0;
     numVertices = 0;
@@ -62,20 +62,45 @@ bool Graph::removeVertice(Vertice& v){
 Aresta Graph::insereAresta(int id_v1, int id_v2, float peso){
     //verificar se vertices existem
 
-    Aresta a;
-    a.de = vertices[id_v1];
-    a.para = vertices[id_v2];
-    a.peso = peso;
-
+    Aresta a{id_v1, id_v2, peso};
     adjList.at(id_v1).push_back(a);
     numArestas++;
 
     //se grafo nao orientado, insere aresta no sentido contrário
     if(!orientado){
-        Aresta a2{vertices[id_v2], vertices[id_v1], peso};
+        Aresta a2{id_v2, id_v1, peso};
         adjList.at(id_v2).push_back(a2);
         numArestas++;
     }
+}
+
+bool Graph::removeAresta(int id_v1, int id_v2){
+    bool achou = false;
+
+    //percorre lista de arestas do vertice 1
+    for(unsigned int i=0; i < adjList[id_v1].size(); i++){
+        if(adjList[id_v1][i].para == id_v2){    //se encontrou aresta para vertice 2
+            cout << "achou" << endl;
+            achou = true;
+            adjList[id_v1].erase(adjList[id_v1].begin()+i);    //remove aresta
+            numArestas--;
+            break;
+        }
+    }
+
+    //se grafo nao orientado, remove aresta no sentido contrario
+    if(!orientado){
+        for(unsigned int i=0; i < adjList[id_v2].size(); i++){
+            if(adjList[id_v2][i].para == id_v1){    //se encontrou aresta para vertice 1
+                cout << "achou contrario" << endl;
+                adjList[id_v2].erase(adjList[id_v2].begin()+i);    //remove aresta
+                numArestas--;
+                break;
+            }
+        }
+    }
+
+    return achou;
 }
 
 
