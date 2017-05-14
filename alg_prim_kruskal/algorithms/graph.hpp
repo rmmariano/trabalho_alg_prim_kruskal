@@ -80,6 +80,8 @@ bool Graph::removeVertice(unsigned int id_v){
     //remove vertice
     vertices[id_v].valido = false;
     numVertices--;
+
+    return true;
 }
 
 bool Graph::verificaVertice(unsigned int id_v){
@@ -161,35 +163,6 @@ void Graph::imprime(){
             cout << endl;
         }
     }
-}
-
-bool Graph::removeAresta(int id_v1, int id_v2){
-    bool achou = false;
-
-    //percorre lista de arestas do vertice 1
-    for(unsigned int i=0; i < adjList[id_v1].size(); i++){
-        if(adjList[id_v1][i].para == id_v2){    //se encontrou aresta para vertice 2
-            cout << "achou" << endl;
-            achou = true;
-            adjList[id_v1].erase(adjList[id_v1].begin()+i);    //remove aresta
-            numArestas--;
-            break;
-        }
-    }
-
-    //se grafo nao orientado, remove aresta no sentido contrario
-    if(!orientado){
-        for(unsigned int i=0; i < adjList[id_v2].size(); i++){
-            if(adjList[id_v2][i].para == id_v1){    //se encontrou aresta para vertice 1
-                cout << "achou contrario" << endl;
-                adjList[id_v2].erase(adjList[id_v2].begin()+i);    //remove aresta
-                numArestas--;
-                break;
-            }
-        }
-    }
-
-    return achou;
 }
 
 #endif // __GRAPH_DEF_HPP__

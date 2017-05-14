@@ -61,8 +61,6 @@ int main(){
     cout << "Removeu vertice A" << endl;
     g.imprime();
 
-    g.removeAresta(idv0, idv1);
-
 
 /*
     test_case_kruskal_01();
