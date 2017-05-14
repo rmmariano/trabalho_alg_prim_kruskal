@@ -8,7 +8,7 @@ using namespace std;
 class Vertice{
 
 public:
-    Vertice();
+    Vertice(string nome) : nome(nome) {}
 
     int id;
     string nome;

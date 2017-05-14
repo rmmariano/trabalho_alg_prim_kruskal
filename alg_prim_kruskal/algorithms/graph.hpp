@@ -13,10 +13,10 @@ class Graph {
         ~Graph(){}
         int insereVertice(Vertice& v);       //retorna ID do vertice inserido
         bool removeVertice(Vertice& v);      //retorna se foi removido
-        Aresta insereAresta(int  id_v1, int id_v2, float peso);    //ret obj da aresta, nullptr se nao for possivel criar (nó nao existir)
-        Aresta verificaAresta(int id_v1, int id_v2);      //retorna obj da aresta, nullptr se nao existir
+        bool insereAresta(int  id_v1, int id_v2, float peso);    //ret false se nao for possivel criar (nó nao existir)
+        Aresta* verificaAresta(int id_v1, int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(int id_v1, int id_v2);     //retorna se foi removido
-        imprime();
+        void imprime();
 
     private:
         bool orientado;
@@ -49,6 +49,10 @@ int Graph::insereVertice(Vertice& v){
 }
 
 bool Graph::removeVertice(Vertice& v){
+    //Se remove vertice, outro vertice ocupa posição dele no vetor?
+    //Isso invalidaria a relação ID==posição
+
+
     //verifica se vertice nao existe
     return false;
 
@@ -59,8 +63,13 @@ bool Graph::removeVertice(Vertice& v){
     //remove vertice
 }
 
-Aresta Graph::insereAresta(int id_v1, int id_v2, float peso){
-    //verificar se vertices existem
+bool Graph::insereAresta(int id_v1, int id_v2, float peso){
+    //verificar se vertices nao existem
+        //return false;
+
+    //se aresta ja existe
+    if(verificaAresta(id_v1, id_v2))
+        return false;
 
     Aresta a{id_v1, id_v2, peso};
     adjList.at(id_v1).push_back(a);
@@ -72,6 +81,18 @@ Aresta Graph::insereAresta(int id_v1, int id_v2, float peso){
         adjList.at(id_v2).push_back(a2);
         numArestas++;
     }
+
+    return true;
+}
+
+Aresta* Graph::verificaAresta(int id_v1, int id_v2){
+    for(unsigned int i=0; i < adjList[id_v1].size(); i++){
+        if(adjList[id_v1][i].para == id_v2){    //se encontrou aresta para vertice 2
+            return &adjList[id_v1][i];
+        }
+    }
+
+    return nullptr; //se nao encontrar retorna null
 }
 
 bool Graph::removeAresta(int id_v1, int id_v2){
@@ -80,7 +101,6 @@ bool Graph::removeAresta(int id_v1, int id_v2){
     //percorre lista de arestas do vertice 1
     for(unsigned int i=0; i < adjList[id_v1].size(); i++){
         if(adjList[id_v1][i].para == id_v2){    //se encontrou aresta para vertice 2
-            cout << "achou" << endl;
             achou = true;
             adjList[id_v1].erase(adjList[id_v1].begin()+i);    //remove aresta
             numArestas--;
@@ -101,6 +121,10 @@ bool Graph::removeAresta(int id_v1, int id_v2){
     }
 
     return achou;
+}
+
+void Graph::imprime(){
+
 }
 
 
