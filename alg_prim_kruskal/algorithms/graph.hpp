@@ -16,6 +16,8 @@ using namespace std;
 
 class Graph {
     public:
+        vector<Vertice> vertices;
+
         Graph(bool orientado);
         ~Graph(){}
         int insereVertice(Vertice& v);       //retorna ID do vertice inserido
@@ -32,7 +34,6 @@ class Graph {
         int numVertices;
         //Vertice v0;                 //vertice inicial
         vector< vector<Aresta> > adjList;
-        vector<Vertice> vertices;
 
         // nao permite copia do obj
         Graph(Graph&);
@@ -61,11 +62,24 @@ bool Graph::removeVertice(unsigned int id_v){
     if(!verificaVertice(id_v))
         return false;
 
-    //remove arestas que saem do vertice
-
     //remove arestas que chegam no vertice
+    for(unsigned int vert=0; vert < adjList.size(); vert++){    //para cada vertice do grafo
+        if(vertices[vert].valido){  //se vertice nao foi removido
+            for(unsigned int are=0; are < adjList[vert].size(); are++){ //para cada aresta do vertice
+                if(adjList[vert][are].para == id_v){    //se é aresta para vertice a ser removido
+                    removeAresta(vert, id_v);   //remove aresta
+                }
+            }
+        }
+    }
+
+    //remove arestas que saem do vertice
+    adjList[id_v].clear();
+
 
     //remove vertice
+    vertices[id_v].valido = false;
+    numVertices--;
 }
 
 bool Graph::verificaVertice(unsigned int id_v){
