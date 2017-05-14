@@ -7,9 +7,8 @@ class Aresta{
 public:
     Aresta();
     Aresta(int de, int para, float peso) : de(de), para(para), peso(peso){}
-
-    int de;     //ID do vertice de origem
-    int para;   //ID do vertice destino
+    unsigned int de;     //ID do vertice de origem
+    unsigned int para;   //ID do vertice destino
     float peso;
 };
 
