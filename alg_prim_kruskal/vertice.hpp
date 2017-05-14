@@ -8,7 +8,7 @@ using namespace std;
 class Vertice{
 
 public:
-    Vertice(string nome) : nome(nome), valido(true) {}
+    Vertice(string nome) : valido(true), nome(nome) {}
 
     bool valido;    //indentifica se vertice existe
     int id;
