@@ -6,3 +6,5 @@ build-*
 *.log
 *.out
 *.backup
+
+*.pro.user
