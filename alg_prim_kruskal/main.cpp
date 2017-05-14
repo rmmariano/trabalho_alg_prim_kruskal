@@ -3,8 +3,6 @@
 #include <iostream>
 
 int main(){
-    cout << "Hello Git" << endl;
-
     test_case_kruskal_01();
     test_case_kruskal_02();
     // outros ...

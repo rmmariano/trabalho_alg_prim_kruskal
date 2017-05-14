@@ -2,9 +2,11 @@
 #define __GRAPH_DEF_HPP__
 
 #include <iostream>
+#include <vector>
+
+#include "aresta.hpp"
 
 using namespace std;
-
 
 class Graph {
 
@@ -20,7 +22,10 @@ class Graph {
 
     private:
         // atributos privados aqui
-        int test;
+        int numArestas;
+        int numVertices;
+        vector<Aresta> arestas;
+        vector<Vertice> vertices;
 };
 
 
