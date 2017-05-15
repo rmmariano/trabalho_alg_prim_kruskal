@@ -17,7 +17,7 @@ using namespace std;
 class Graph {
     public:
         vector<Vertice> vertices;
-
+        vector<Aresta> arestas;
         Graph(bool orientado);
         ~Graph(){}
         int insereVertice(Vertice& v);       //retorna ID do vertice inserido
@@ -103,6 +103,7 @@ bool Graph::insereAresta(unsigned int id_v1, unsigned int id_v2, float peso){
         return false;
     Aresta a{id_v1, id_v2, peso};
     adjList.at(id_v1).push_back(a);
+    this->arestas.push_back(a);
     numArestas++;
 
     //se grafo nao orientado, insere aresta no sentido contrário
@@ -110,6 +111,7 @@ bool Graph::insereAresta(unsigned int id_v1, unsigned int id_v2, float peso){
         Aresta a2{id_v2, id_v1, peso};
         adjList.at(id_v2).push_back(a2);
         numArestas++;
+        this->arestas.push_back(a2);
     }
 
     return true;
