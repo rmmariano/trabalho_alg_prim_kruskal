@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include "aresta.hpp"
+#include "../aresta.hpp"
 
 /* Ao remover um vertice, a posição dos vertices posteriores no vetor seria alterada
  * invalidando a relação vertice.id == adjList[id].
@@ -27,6 +27,7 @@ class Graph {
         Aresta* verificaAresta(unsigned int id_v1, unsigned int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(unsigned int id_v1, unsigned int id_v2);     //retorna se foi removido
         void imprime();
+        vector<vector<Aresta>> getAdjList();
 
     private:
         bool orientado;
@@ -36,7 +37,7 @@ class Graph {
         vector< vector<Aresta> > adjList;
 
         // nao permite copia do obj
-        Graph(Graph&);
+        //Graph(Graph&);
         Graph&	operator=(Graph&);
 };
 
@@ -44,6 +45,10 @@ class Graph {
 Graph::Graph(bool orientado) : orientado(orientado){
     numArestas = 0;
     numVertices = 0;
+}
+
+vector<vector<Aresta>> Graph::getAdjList(){
+    return adjList;
 }
 
 int Graph::insereVertice(Vertice& v){
