@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
 #include "aresta.hpp"
 
 /* Ao remover um vertice, a posição dos vertices posteriores no vetor seria alterada
@@ -27,6 +28,8 @@ class Graph {
         Aresta* verificaAresta(unsigned int id_v1, unsigned int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(unsigned int id_v1, unsigned int id_v2);     //retorna se foi removido
         void imprime();
+        bool graphHasCicle(); //verifica se o grafo possui ciclo (Mascára da função)
+        bool dfs(Vertice v); //Busca em profundidade
 
     private:
         bool orientado;
@@ -36,7 +39,7 @@ class Graph {
         vector< vector<Aresta> > adjList;
 
         // nao permite copia do obj
-        Graph(Graph&);
+       // Graph(Graph&);
         Graph&	operator=(Graph&);
 };
 
@@ -165,6 +168,59 @@ void Graph::imprime(){
             cout << endl;
         }
     }
+}
+
+bool Graph::dfs(Vertice v){
+ stack<int> visit;
+ bool visitados[this->numVertices], pilha_v[this->numVertices];
+ for (int k = 0; k < this->numVertices; k++){
+     visitados[k] = false;
+     pilha_v[k] = false;
+ }
+
+ int id_v;
+ while(true){
+     id_v = v.id;
+     bool temVizinho = false;
+
+     if(!visitados[id_v]){
+         visit.push(id_v);
+         visitados[id_v] = true;
+         pilha_v[id_v] = true;
+     }
+      int indexA;
+     for(Aresta a: adjList.at(id_v)){
+         indexA = a.para;
+         if(pilha_v[indexA])
+             return true;
+         else if(!visitados[indexA]){
+             temVizinho = true;
+             break;
+         }
+       }
+
+     if(!temVizinho){
+         pilha_v[visit.top()] = false;
+         visit.pop();
+         if(visit.empty())
+             break;
+        id_v = visit.top();
+     }
+     else{
+        id_v = indexA;
+     }
+ }
+ return false;
+
+}
+
+
+
+bool Graph::graphHasCicle(){
+    for (Vertice v: this->vertices){
+        if(dfs(v)) return true;
+    }
+    return false;
 }
 
 #endif // __GRAPH_DEF_HPP__

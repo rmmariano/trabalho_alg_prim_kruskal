@@ -3,7 +3,7 @@
 
 #include "graph.hpp"
 
-
+/*
 // colocar algoritmo de kruskal aqui
 Graph kruskal(Graph* inicio){
     Graph gResult(false);
@@ -11,9 +11,9 @@ Graph kruskal(Graph* inicio){
     vector<Vertice> la;
 
 
-    return nullptr
+    return nullptr;
 
 }
-
+*/
 
 #endif // __KRUSKAL_HPP__
