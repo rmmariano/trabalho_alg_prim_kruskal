@@ -28,8 +28,9 @@ class Graph {
         Aresta* verificaAresta(unsigned int id_v1, unsigned int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(unsigned int id_v1, unsigned int id_v2);     //retorna se foi removido
         void imprime();
-        bool graphHasCicle(); //verifica se o grafo possui ciclo (Mascára da função)
+        bool graphHasCicle(); //verifica se o grafo possui ciclo
         bool dfs(Vertice v); //Busca em profundidade
+        void ordenaArestas(); //Ordenação de Arestas
 
     private:
         bool orientado;
@@ -179,8 +180,10 @@ bool Graph::dfs(Vertice v){
  }
 
  int id_v;
+ id_v = v.id;
+
  while(true){
-     id_v = v.id;
+
      bool temVizinho = false;
 
      if(!visitados[id_v]){
@@ -189,10 +192,13 @@ bool Graph::dfs(Vertice v){
          pilha_v[id_v] = true;
      }
       int indexA;
+
      for(Aresta a: adjList.at(id_v)){
          indexA = a.para;
-         if(pilha_v[indexA])
+         if(pilha_v[indexA]){
+             cout << "Algo de errado não está certo";
              return true;
+         }
          else if(!visitados[indexA]){
              temVizinho = true;
              break;
@@ -221,6 +227,22 @@ bool Graph::graphHasCicle(){
         if(dfs(v)) return true;
     }
     return false;
+}
+
+
+void Graph::ordenaArestas(){
+
+    Aresta temp;
+    for (int k = this->numArestas-1; k <= 0 ; k++){
+        for(int i = 0; i < k; i++){
+            if(arestas.at(i).peso > arestas.at(i+1).peso){
+                temp = arestas.at(i);
+                arestas.at(i) = arestas.at(i+1);
+                arestas.at(i+1) = temp;
+            }
+        }
+    }
+
 }
 
 #endif // __GRAPH_DEF_HPP__

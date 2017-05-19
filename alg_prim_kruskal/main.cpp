@@ -40,7 +40,8 @@ int main(){
     g.insereAresta(idvB, idvE, 1);
 
     g.imprime();
-
+    cout << "\n "<< g.graphHasCicle();
+/*
 //Verifica aresta
     cout << "\n================================ Verifica aresta ================================"<< endl;
     Aresta *a = g.verificaAresta(idvA, idvD);
@@ -61,7 +62,7 @@ int main(){
     cout << "Removeu vertice A" << endl;
     g.imprime();
 
-
+*/
 /*
     test_case_kruskal_01();
     test_case_kruskal_02();
@@ -71,6 +72,9 @@ int main(){
     test_case_prim_02();
     // outros ...
 */
+
+
+
 
     return 0;
 }
