@@ -16,13 +16,7 @@ vector<Aresta> prim(Graph grafo){
     visitados.push_back(v_atual);
 
     //2. Selecionar todas as arestas ligadas ao vértice inicial
-    int tam = grafo.getAdjList().size();
-    for(int i = 0; i < tam; ++i){
-        adj_aux = grafo.getAdjList()[i];
-
-        if(adj_aux[0].de == v_atual)
-            break;
-    }
+    adj_aux = grafo.getAdjList()[v_atual];
 
     //3. Escolher aresta com o menor peso
     Aresta menor = menor_peso(adj_aux);
@@ -46,12 +40,7 @@ vector<Aresta> prim(Graph grafo){
 
         //7. Selecionar todas as arestas ligadas ao último vertice visitado
         adj_aux.clear();
-        for(int i = 0; i < tam; ++i){
-            adj_aux = grafo.getAdjList()[i];
-
-            if(adj_aux[0].de == v_atual)
-                break;
-        }
+        adj_aux = grafo.getAdjList()[v_atual];
 
         //8. Copiar arestas do vetor de adjacentes para estrutura auxiliar
         for(Aresta a : adjacentes){
