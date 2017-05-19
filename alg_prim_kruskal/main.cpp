@@ -69,7 +69,7 @@ int main(){
     // outros ... */
 
     test_case_prim_01();
-    //test_case_prim_02();
+    test_case_prim_02();
     // outros ...
 
 

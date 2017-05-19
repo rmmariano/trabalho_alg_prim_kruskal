@@ -8,71 +8,86 @@ Aresta menor_peso(vector<Aresta>);
 vector<Aresta> prim(Graph grafo){
     vector<Aresta> agm;
     vector<int> visitados;
+    vector<Aresta> adjacentes;
+    vector<Aresta> adj_aux;
 
-    int v_atual = grafo.vertices[3].id;
+    //1. Escolher vértice inicial e marcá-lo como visitado
+    int v_atual = grafo.vertices[0].id;
+    visitados.push_back(v_atual);
 
-    while(visitados.size() != grafo.vertices.size()){
-        vector<Aresta> adj;
-        vector<Aresta> adj_aux;
-        vector<Aresta> adj_vis;
-        vector<Aresta> adj_perm;
+    //2. Selecionar todas as arestas ligadas ao vértice inicial
+    int tam = grafo.getAdjList().size();
+    for(int i = 0; i < tam; ++i){
+        adj_aux = grafo.getAdjList()[i];
 
-        visitados.push_back(v_atual);
+        if(adj_aux[0].de == v_atual)
+            break;
+    }
 
-        //Arestas adjacentes aos vértice visitados
-        int tam = grafo.getAdjList().size();
+    //3. Escolher aresta com o menor peso
+    Aresta menor = menor_peso(adj_aux);
+
+    //4. Adicionar aresta na árvore geradora mínima
+    agm.push_back(menor);
+
+    //5. Marcar o outro vértice da aresta como visitado
+    visitados.push_back(menor.para);
+
+    //6. Atualizar conjunto de arestas que podem ser escolhidas
+    for(Aresta a : adj_aux){
+        if(a.de != menor.de || a.para != menor.para)
+            adjacentes.push_back(a);
+    }
+
+    //Repetir até todos os vértices serem visitados
+    int tam_vertices = grafo.vertices.size();
+    while(tam_vertices != visitados.size()){
+        v_atual = menor.para;
+
+        //7. Selecionar todas as arestas ligadas ao último vertice visitado
+        adj_aux.clear();
         for(int i = 0; i < tam; ++i){
-            adj = grafo.getAdjList()[i];
+            adj_aux = grafo.getAdjList()[i];
 
-            for(int ver : visitados){
-                if(adj[0].de == ver){
-                    for(int j = 0; j < adj.size(); ++j){
-                        adj_vis.push_back(adj[j]);
-                    }
-                }
-            }
+            if(adj_aux[0].de == v_atual)
+                break;
         }
 
-        //Exclui ligação com vértices já visitados
-        for(Aresta a : adj_vis){
-            bool info = true;
+        //8. Copiar arestas do vetor de adjacentes para estrutura auxiliar
+        for(Aresta a : adjacentes){
+            adj_aux.push_back(a);
+        }
+
+        //9. Excluir arestas cujos vértices destino ja foram marcados como visitados
+        adjacentes.clear();
+        for(Aresta a : adj_aux){
+            bool a_rejeitada = false;
+
             for(int v : visitados){
-                if(a.para == v)
-                    info = false;
-            }
-
-            if(info)
-                adj_perm.push_back(a);
-        }
-
-        //Exclui já inseridas
-        for(Aresta a : adj_perm){
-            bool info = true;
-            for(Aresta a_esc : agm){
-                if ((a.de == a_esc.de && a.para == a_esc.para) || (a.de == a_esc.para && a.para == a_esc.de)){
-                    info = false;
+                if(a.para == v){
+                    a_rejeitada = true;
+                    break;
                 }
             }
 
-            if(info)
-                adj_aux.push_back(a);
+            if(!a_rejeitada)
+                adjacentes.push_back(a);
         }
 
-        if(adj_aux.size() > 0){
-            //Calcula o menor peso
-            Aresta a_menor = menor_peso(adj_aux);
+        //10. Escolher aresta com menor peso
+        menor = menor_peso(adjacentes);
 
-            //Novo vértice a ser consultado
-            v_atual = a_menor.para;
+        //11. Adicionar aresta com menor peso na árvore geradora mínima
+        agm.push_back(menor);
 
-            //Adiciona aresta na árvore geradora mínima
-            agm.push_back(a_menor);
-        }
+        //12. Marcar o outro vértice da aresta como visitado
+        visitados.push_back(menor.para);
     }
 
     return agm;
 }
 
+//Função para escolher a aresta com o menor peso
 Aresta menor_peso(vector<Aresta> arestas){
     Aresta a_menor(0,0,0);
     int tam = arestas.size();
