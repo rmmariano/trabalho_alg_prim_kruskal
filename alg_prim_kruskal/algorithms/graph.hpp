@@ -176,57 +176,74 @@ void Graph::imprime(){
     }
 }
 
+//Busca em profundidade para avaliar se há ciclo a partir de um Vertice V
 bool Graph::dfs(Vertice v){
+ //Pilha de vertices visitados (indice)
  stack<int> visit;
+ //Declaração de dois vetores, o primeiro avalia se o vertice foi visitado, o segundo avalia a pilha
  bool visitados[this->numVertices], pilha_v[this->numVertices];
+ //laço para inicializar os vetores com false
  for (int k = 0; k < this->numVertices; k++){
      visitados[k] = false;
      pilha_v[k] = false;
  }
 
+ //ID da vertice
  int id_v;
  id_v = v.id;
 
  while(true){
-
+     //variável de controle para ver se há visinho
      bool temVizinho = false;
 
+     //"Se" o vertice atual não foi visitado ainda
      if(!visitados[id_v]){
+         //empilha e altera os vetores de controle
          visit.push(id_v);
          visitados[id_v] = true;
          pilha_v[id_v] = true;
      }
+      //vertice vizinho
       int indexA;
 
+     //laço para iterar a lista de ajacencia a partir da vertice V
      for(Aresta a: adjList.at(id_v)){
          indexA = a.para;
+
          if(pilha_v[indexA]){
-             cout << "Algo de errado não está certo";
+             //"Se" encontrar ciclo
              return true;
          }
+
          else if(!visitados[indexA]){
+             //caso ainda não encontre ciclo, marca que há vizinho e quebra o laço de iteração
              temVizinho = true;
              break;
          }
        }
 
+     //se não tem vizinho
      if(!temVizinho){
          pilha_v[visit.top()] = false;
          visit.pop();
+         //Se visitou todos os vizinhos e não encontrou ciclo quebra o While(true)
          if(visit.empty())
              break;
+        //atualiza o "v" atual para o ultimo vertice empilhado
         id_v = visit.top();
      }
      else{
+        //caso há vizinho, altera o vertice "v" para o vizinho
         id_v = indexA;
      }
  }
+ //caso o while seja quebrado sem encontrar ciclo, retorna falso
  return false;
 
 }
 
 
-
+//Faz uma verificação no grafo avaliando se há ciclo
 bool Graph::graphHasCicle(){
     for (Vertice v: this->vertices){
         if(dfs(v)) return true;
@@ -235,6 +252,8 @@ bool Graph::graphHasCicle(){
 }
 
 
+
+//Bubble sort para ordenação das arestas por peso
 void Graph::ordenaArestas(){
 
     Aresta temp;
