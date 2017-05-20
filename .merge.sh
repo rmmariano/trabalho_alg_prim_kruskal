@@ -4,10 +4,7 @@
 ## preciso estar na dev_mariano
 
 
-<<<<<<< HEAD
-=======
 <<COMMENT1
->>>>>>> dev_tk
 git pull origin dev_mariano
 git push origin dev_mariano
 
@@ -23,25 +20,11 @@ git checkout dev_tk
 git pull origin dev_tk
 git push origin dev_tk
 
-
-<<<<<<< HEAD
-
-<<COMMENT1
-=======
->>>>>>> dev_tk
 git checkout dev_joamila
 git pull origin dev_joamila
 git push origin dev_joamila
-COMMENT1
 
 
-
-
-<<<<<<< HEAD
-<<COMMENT1
-=======
-
->>>>>>> dev_tk
 git checkout master
 
 
@@ -54,14 +37,9 @@ git push origin master
 git merge dev_tk
 git push origin master
 
-<<<<<<< HEAD
-=======
-
-<<COMMENT1
->>>>>>> dev_tk
 git merge dev_joamila
 git push origin master
-
+COMMENT1
 
 git checkout dev_mariano
 git merge master
@@ -70,6 +48,7 @@ git push origin dev_mariano
 
 # eles
 
+<<COMMENT1
 #git checkout master
 #git pull origin master
 
