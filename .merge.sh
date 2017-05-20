@@ -1,7 +1,9 @@
 #!/bin/bash
 
 
-# rodrigo - estar na dev_mariano
+# estar na dev_mariano
+git checkout dev_mariano
+
 
 git add .
 git commit -m "./merge"
@@ -10,6 +12,7 @@ git push origin dev_mariano
 
 git pull origin dev_mariano
 git push origin dev_mariano
+
 
 git checkout master
 git pull origin master
