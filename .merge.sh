@@ -19,13 +19,18 @@ git checkout dev_tk
 git pull origin dev_tk
 git push origin dev_tk
 
-git checkout dev_joamila
-git pull origin dev_joamila
-git push origin dev_joamila
 
 
 <<COMMENT1
+git checkout dev_joamila
+git pull origin dev_joamila
+git push origin dev_joamila
+COMMENT1
 
+
+
+
+<<COMMENT1
 git checkout master
 
 
@@ -55,8 +60,6 @@ git push origin dev_mariano
 #git checkout dev_voce
 #git merge master
 #git push origin dev_voce
-
-echo 'abc'
 COMMENT1
 
 
