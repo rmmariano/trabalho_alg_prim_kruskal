@@ -64,10 +64,10 @@ int main(){
     g.imprime();
 
 */
-/*
+
     test_case_kruskal_01();
-    test_case_kruskal_02();
-    // outros ... */
+    //test_case_kruskal_02();
+    // outros ...
 
     test_case_prim_01();
     test_case_prim_02();

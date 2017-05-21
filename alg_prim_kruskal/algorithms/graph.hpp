@@ -28,6 +28,7 @@ class Graph {
         Aresta* verificaAresta(unsigned int id_v1, unsigned int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(unsigned int id_v1, unsigned int id_v2);     //retorna se foi removido
         void imprime();
+        void imprimeKruskal();
         bool graphHasCicle(); //verifica se o grafo possui ciclo
         bool dfs(Vertice v); //Busca em profundidade
         void ordenaArestas(); //Ordenação de Arestas
@@ -160,6 +161,13 @@ bool Graph::removeAresta(unsigned int id_v1, unsigned int id_v2){
             }
         }
     }
+    int k = 0;
+    for(Aresta a: this->arestas){
+        if (id_v1 == a.de && id_v2 == a.para){
+            this->arestas.erase(this->arestas.begin()+k);
+        }
+        k++;
+    }
 
     return achou;
 }
@@ -174,6 +182,14 @@ void Graph::imprime(){
             cout << endl;
         }
     }
+}
+
+void Graph::imprimeKruskal(){
+
+    for(Aresta a: this->arestas){
+        cout << "De: "<< this->vertices.at(a.de).nome << " Para: " << this->vertices.at(a.para).nome << " Peso: " << a.peso << endl;
+    }
+
 }
 
 //Busca em profundidade para avaliar se há ciclo a partir de um Vertice V
