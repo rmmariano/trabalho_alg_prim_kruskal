@@ -3,36 +3,36 @@
 
 #include "graph.hpp"
 
-
-// colocar algoritmo de kruskal aqui
 Graph kruskal(Graph inicio){
     //Declara o grafo representando a arvore minima geradora
-    Graph gResult(true);
+    Graph gResult(false);    //nao orientado
 
-    //vector<Vertice> la;
+    if(inicio.orientado){
+        cout << "Kruskal eh destinado a grafos nao orientados!" << endl;
+        return gResult;
+    }
 
-    //itera todas as vertices do grafo inicial, registrando-os no novo grafo
+    //Copia todos os vertices do grafo original para o novo
     for(Vertice a: inicio.vertices){
         gResult.insereVertice(a);
     }
+
     //Ordena a lista de arestas por peso
     inicio.ordenaArestas();
 
-    //itera as arestas do gráfico inicial
-    for(Aresta a: inicio.arestas){
-        //insere no novo grafo
-        gResult.insereAresta(a.de, a.para, a.peso);
-        //se há ciclos com essa ultima aresta, deleta do grafo
-        if(gResult.graphHasCicle()){
+    //itera as arestas do grafo inicial
+    for(Aresta a: inicio.arestas){        
+        gResult.insereAresta(a.de, a.para, a.peso);     //insere no novo grafo
+
+        //se surgir ciclos com essa ultima aresta, remove do grafo
+        //cout << "isCycle " << gResult.isCyclic() << endl;
+        //if(gResult.graphHasCicle()){
+        if(gResult.isCyclic()){
             gResult.removeAresta(a.de, a.para);
         }
     }
 
-
-
-    return gResult;
-
+    return gResult;     //retorna grafo MST
 }
-
 
 #endif // __KRUSKAL_HPP__

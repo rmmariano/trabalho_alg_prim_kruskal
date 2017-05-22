@@ -50,7 +50,7 @@ void test_case_prim_01 () {
     g.insereAresta(idvG, idvE, 9);
     g.insereAresta(idvG, idvF, 11);
 
-    cout << "\n\nComeço execução Teste 01 Prim\n";
+    cout << "\n\nComeco execucao Teste 01 Prim\n";
 
     vector<Aresta> agm = prim(g);
 
@@ -64,7 +64,7 @@ void test_case_prim_01 () {
 
     cout << "Soma da AGM: " << soma << "\n";
     cout << "Qtd de arestas: " << qtd << "\n";
-    cout << "Fim execução Teste 01 Prim\n";
+    cout << "Fim execucao Teste 01 Prim\n";
 }
 
 void test_case_prim_02 () {
@@ -111,7 +111,7 @@ void test_case_prim_02 () {
     g.insereAresta(idvF, idvD, 4);
     g.insereAresta(idvF, idvE, 3);
 
-    cout << "\n\nComeço execução Teste 02 Prim\n";
+    cout << "\n\nComeco execucao Teste 02 Prim\n";
 
     vector<Aresta> agm = prim(g);
 
@@ -125,7 +125,7 @@ void test_case_prim_02 () {
 
     cout << "Soma da AGM: " << soma << "\n";
     cout << "Qtd de arestas: " << qtd << "\n";
-    cout << "Fim execução Teste 02 Prim\n";
+    cout << "Fim execucao Teste 02 Prim\n";
 
 }
 
