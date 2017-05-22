@@ -34,7 +34,7 @@ vector<Aresta> prim(Graph grafo){
     }
 
     //Repetir até todos os vértices serem visitados
-    int tam_vertices = grafo.vertices.size();
+    unsigned int tam_vertices = grafo.vertices.size();
     while(tam_vertices != visitados.size()){
         v_atual = menor.para;
 
@@ -52,7 +52,7 @@ vector<Aresta> prim(Graph grafo){
         for(Aresta a : adj_aux){
             bool a_rejeitada = false;
 
-            for(int v : visitados){
+            for(unsigned int v : visitados){
                 if(a.para == v){
                     a_rejeitada = true;
                     break;

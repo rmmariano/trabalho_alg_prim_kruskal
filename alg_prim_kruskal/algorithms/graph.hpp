@@ -32,22 +32,17 @@ class Graph {
         void imprime();
 
         //Kruskal
-        void imprimeKruskal();
-        bool graphHasCicle(); //verifica se o grafo possui ciclo
-        bool dfs(Vertice v); //Busca em profundidade de ciclos
         void ordenaArestas(); //Ordenação de Arestas
+        bool isCyclic();
 
         //Prim
         vector<vector<Aresta>> getAdjList();    //retorna lista de adjacencia
-
-        //Busca de ciclos para grafo nao orientado
-        bool isCyclicUtil(int v, bool visited[], int parent);
-        bool isCyclic();
 
     private:
         int numArestas;
         int numVertices;
         vector< vector<Aresta> > adjList;
+        bool isCyclicRecursion(int v, bool visited[], unsigned int parent);
 
         // nao permite copia do obj
         //Graph(Graph&);
@@ -200,84 +195,6 @@ void Graph::imprime(){
     }
 }
 
-void Graph::imprimeKruskal(){
-
-    for(Aresta a: this->arestas){
-        cout << "De: "<< this->vertices.at(a.de).nome << " Para: " << this->vertices.at(a.para).nome << " Peso: " << a.peso << endl;
-    }
-
-}
-
-//Busca em profundidade para avaliar se há ciclo a partir de um Vertice V
-bool Graph::dfs(Vertice v){    
-    stack<int> visitar;                         //Pilha de vertices a serem visitados (indice)
-    bool visitado[this->numVertices] {false};   //Indica se o vertice foi visitado, inicializado com false
-    bool empilhado[this->numVertices] {false};  //Indica se vertice esta na pilha
-
-    bool temVizinho = false;    //variável de controle para ver se há vizinho
-    int id_destino;     //vertice vizinho
-
-    int id_v = v.id;    //ID do vertice sendo verificado, inicia por v
-
-    //Percore or vértices a partir de v
-    while(true){
-        temVizinho = false;    //variável de controle para ver se há vizinho
-
-        //Se o vertice atual não foi visitado ainda
-        if(!visitado[id_v]){
-            visitar.push(id_v);     //Empilha para visitar depois
-            empilhado[id_v] = true; //Marca como empilhado
-            visitado[id_v] = true;  //Marca como visitado
-        }
-
-        //Percorre lista de arestas do vértice procurando por vizinho que ainda nao foi visitado
-        for(Aresta a: adjList[id_v]){
-            id_destino = a.para;
-
-            if(empilhado[id_destino]){  //se o vertice destino esta na pilha
-                if(orientado){
-                    return true;    //Encontrou ciclo
-                //se nao orientado ignora sentido contrario da primeira aresta
-                }else{
-                    for(Aresta a2 : adjList[v.id]){
-
-                    }
-                    //return true;    //Encontrou ciclo
-                }
-
-            }else if(!visitado[id_destino]){ //Se o destino ainda não foi visitado
-                temVizinho = true;  //marca que há vizinho e quebra o laço para que ele seja verificado
-                break;
-            }
-        }
-
-        //se não tem vizinho
-        if(!temVizinho){
-            empilhado[visitar.top()] = false;   //pega próximo vértice da pilha para visitar
-            visitar.pop();
-
-            //Se visitou todos os vizinhos e não encontrou ciclo quebra o While(true)
-            if(visitar.empty())
-                break;
-
-            id_v = visitar.top();   //atualiza o "v" atual para o ultimo vertice empilhado
-        } else{
-            id_v = id_destino;      //caso há vizinho, altera o vertice "v" para o vizinho
-        }
-    }
-    //caso o while seja quebrado sem encontrar ciclo, retorna falso
-    return false;
-}
-
-
-//Faz uma verificação no grafo avaliando se há ciclo
-bool Graph::graphHasCicle(){
-    for (Vertice v: this->vertices){
-        if(dfs(v)) return true;     //faz busca em profundidade a partir de cada vertice
-    }
-    return false;
-}
-
 
 //Ordenação das arestas por peso
 void Graph::ordenaArestas(){
@@ -300,41 +217,34 @@ void Graph::ordenaArestas(){
 
 //  Adaptado de http://www.geeksforgeeks.org/detect-cycle-undirected-graph/
 
-// A recursive function that uses visited[] and parent to detect
-// cycle in subgraph reachable from vertex v.
-bool Graph::isCyclicUtil(int v, bool visited[], int parent){
-    // Mark the current node as visited
-    visited[v] = true;
+// Funcao recursiva para verificar ciclo no subgrafo alcançavel a partir do vertice v
+bool Graph::isCyclicRecursion(int v, bool visited[], unsigned int parent){
+    visited[v] = true;  //Marca nó atual como visitado
 
-    // Recur for all the vertices adjacent to this vertex
-    int i;
-    for (i = 0; i < adjList[v].size(); ++i){
-        // If an adjacent is not visited, then recur for that adjacent
-        if (!visited[adjList[v][i].para]){
-           if (isCyclicUtil(adjList[v][i].para, visited, v))
-              return true;
+    //Percorre todos os nós adjacentes
+    for (unsigned int i = 0; i < adjList[v].size(); ++i){
+        if (!visited[adjList[v][i].para]){      //Se o nó ainda nao foi visitado
+            if(isCyclicRecursion(adjList[v][i].para, visited, v))    //Chama funçao recursivamente para o nó
+                return true;    //Se encontrar ciclo retorna true e interrompe restante da busca
         }
-
-        // If an adjacent is visited and not parent of current vertex, then there is a cycle.
-        else if (adjList[v][i].para != parent)
-           return true;
+        else if (adjList[v][i].para != parent)  //Se o nó já foi visitado e não é pai do nó atual
+           return true;                             //Encontrou ciclo
     }
-    return false;
+    return false;   //se visitou todos os adjacentes (recursivamente), nao encontrou ciclo
 }
 
-// Returns true if the graph contains a cycle, else false.
+// Retorna se grafo contem ciclo
 bool Graph::isCyclic(){
-    // Mark all the vertices as not visited and not part of recursion stack
-    int V = this->numVertices;
-    bool *visited = new bool[V];
-    for (int i = 0; i < V; i++)
+    // Inicializa todos os nós como nao visitados
+    bool *visited = new bool[numVertices];
+    for (int i = 0; i < numVertices; i++)
         visited[i] = false;
 
-    // Call the recursive helper function to detect cycle in different DFS trees
-    for (int u = 0; u < V; u++)
-        if (!visited[u]) // Don't recur for u if it is already visited
-          if (isCyclicUtil(u, visited, -1))
-             return true;
+    // Chama funçao recursiva verificando a partir de todos os vertices
+    for (int vertice = 0; vertice < numVertices; vertice++)
+        if (!visited[vertice]) // Don't recur for u if it is already visited
+          if (isCyclicRecursion(vertice, visited, -1))  //vertice inicial, vetor de flags, pai do vertice inicial
+             return true;           //Se encontrar ciclo retorna true e interrompe restante da busca
 
     return false;
 }

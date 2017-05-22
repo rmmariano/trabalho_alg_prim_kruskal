@@ -4,14 +4,15 @@
 #include "graph.hpp"
 
 Graph kruskal(Graph inicio){
-    int isCycle(Graph graph);
-    void Union(int parent[], int x, int y);
-    int find(int parent[], int i);
-
     //Declara o grafo representando a arvore minima geradora
-    Graph gResult(inicio.orientado);    //orientado/nao de acordo com original
+    Graph gResult(false);    //nao orientado
 
-    //itera todas as vertices do grafo inicial, registrando-os no novo grafo
+    if(inicio.orientado){
+        cout << "Kruskal eh destinado a grafos nao orientados!" << endl;
+        return gResult;
+    }
+
+    //Copia todos os vertices do grafo original para o novo
     for(Vertice a: inicio.vertices){
         gResult.insereVertice(a);
     }

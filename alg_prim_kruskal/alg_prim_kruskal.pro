@@ -17,5 +17,6 @@ HEADERS += \
     tests/test_case_kruskal.hpp \
     vertice.hpp \
     aresta.hpp \
-    algorithms/graph.hpp
+    algorithms/graph.hpp \
+    tests/test_case_grafo.hpp
 

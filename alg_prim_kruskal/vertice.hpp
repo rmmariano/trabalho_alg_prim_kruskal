@@ -13,7 +13,6 @@ public:
     bool valido;    //indentifica se vertice existe
     int id;
     string nome;
-    //outros atributos...
 };
 
 #endif // VERTICE_HPP
