@@ -62,7 +62,7 @@ void test_case_kruskal_01 () {
 void test_case_kruskal_02 () {
     cout << "Test Case Kruskal - Nao orientado" << endl;
 
-    Graph g(false);  //grafo orientado
+    Graph g(false);  //grafo nao orientado
 
 //Insere vertices
     cout << "================================ Insere vertices ================================"<< endl;
@@ -91,11 +91,11 @@ void test_case_kruskal_02 () {
     g.insereAresta(idvB, idvE, 1);
 
     g.imprime();
-    cout << "\nTem ciclo: "<< g.graphHasCicle() << endl;
+    cout << "Tem ciclo: "<< g.isCyclic() << endl << endl;
 
     Graph result = kruskal(g);
     result.imprime();
-    cout << "\nTem ciclo: "<< result.graphHasCicle() << endl;
+    cout << "Tem ciclo: "<< result.isCyclic() << endl << endl;
 }
 
 #endif // __TEST_CASE_KRUSKAL_HPP__

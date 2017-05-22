@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <list>
 #include "../aresta.hpp"
 
 /* Ao remover um vertice, a posição dos vertices posteriores no vetor seria alterada
@@ -19,6 +20,7 @@ class Graph {
     public:
         vector<Vertice> vertices;
         vector<Aresta> arestas;
+        bool orientado;
         Graph(bool orientado);
         ~Graph(){}
         int insereVertice(Vertice& v);              //retorna ID do vertice inserido
@@ -28,17 +30,23 @@ class Graph {
         Aresta* verificaAresta(unsigned int id_v1, unsigned int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(unsigned int id_v1, unsigned int id_v2);     //retorna se foi removido
         void imprime();
+
+        //Kruskal
         void imprimeKruskal();
         bool graphHasCicle(); //verifica se o grafo possui ciclo
-        bool dfs(Vertice v); //Busca em profundidade
+        bool dfs(Vertice v); //Busca em profundidade de ciclos
         void ordenaArestas(); //Ordenação de Arestas
+
+        //Prim
         vector<vector<Aresta>> getAdjList();    //retorna lista de adjacencia
 
+        //Busca de ciclos para grafo nao orientado
+        bool isCyclicUtil(int v, bool visited[], int parent);
+        bool isCyclic();
+
     private:
-        bool orientado;
         int numArestas;
         int numVertices;
-        //Vertice v0;                 //vertice inicial
         vector< vector<Aresta> > adjList;
 
         // nao permite copia do obj
@@ -154,7 +162,7 @@ bool Graph::removeAresta(unsigned int id_v1, unsigned int id_v2){
     if(!orientado){
         for(unsigned int i=0; i < adjList[id_v2].size(); i++){
             if(adjList[id_v2][i].para == id_v1){    //se encontrou aresta para vertice 1
-                cout << "achou contrario" << endl;
+                //cout << "achou contrario" << endl;
                 adjList[id_v2].erase(adjList[id_v2].begin()+i);    //remove aresta
                 numArestas--;
                 break;
@@ -227,10 +235,17 @@ bool Graph::dfs(Vertice v){
             id_destino = a.para;
 
             if(empilhado[id_destino]){  //se o vertice destino esta na pilha
-                return true;    //Encontrou ciclo
-            }
+                if(orientado){
+                    return true;    //Encontrou ciclo
+                //se nao orientado ignora sentido contrario da primeira aresta
+                }else{
+                    for(Aresta a2 : adjList[v.id]){
 
-            else if(!visitado[id_destino]){ //Se o destino ainda não foi visitado
+                    }
+                    //return true;    //Encontrou ciclo
+                }
+
+            }else if(!visitado[id_destino]){ //Se o destino ainda não foi visitado
                 temVizinho = true;  //marca que há vizinho e quebra o laço para que ele seja verificado
                 break;
             }
@@ -264,19 +279,64 @@ bool Graph::graphHasCicle(){
 }
 
 
-//Bubble sort para ordenação das arestas por peso
+//Ordenação das arestas por peso
 void Graph::ordenaArestas(){
-
     Aresta temp;
-    for (int k = this->numArestas-1; k <= 0 ; k--){
-        for(int i = 0; i < k; i++){
-            if(arestas.at(i).peso > arestas.at(i+1).peso){
-                temp = arestas.at(i);
-                arestas.at(i) = arestas.at(i+1);
-                arestas.at(i+1) = temp;
-            }
+    int menor = 0;
+    for(int pivo=0; pivo < numArestas; pivo++){
+        menor = pivo;
+        for(int i=pivo+1; i<numArestas; i++){
+            if(arestas[i].peso < arestas[menor].peso)
+                menor = i;
         }
+
+        //swap
+        temp = arestas.at(pivo);
+        arestas.at(pivo) = arestas.at(menor);
+        arestas.at(menor) = temp;
     }
+}
+
+
+//  Adaptado de http://www.geeksforgeeks.org/detect-cycle-undirected-graph/
+
+// A recursive function that uses visited[] and parent to detect
+// cycle in subgraph reachable from vertex v.
+bool Graph::isCyclicUtil(int v, bool visited[], int parent){
+    // Mark the current node as visited
+    visited[v] = true;
+
+    // Recur for all the vertices adjacent to this vertex
+    int i;
+    for (i = 0; i < adjList[v].size(); ++i){
+        // If an adjacent is not visited, then recur for that adjacent
+        if (!visited[adjList[v][i].para]){
+           if (isCyclicUtil(adjList[v][i].para, visited, v))
+              return true;
+        }
+
+        // If an adjacent is visited and not parent of current vertex, then there is a cycle.
+        else if (adjList[v][i].para != parent)
+           return true;
+    }
+    return false;
+}
+
+// Returns true if the graph contains a cycle, else false.
+bool Graph::isCyclic(){
+    // Mark all the vertices as not visited and not part of recursion stack
+    int V = this->numVertices;
+    bool *visited = new bool[V];
+    for (int i = 0; i < V; i++)
+        visited[i] = false;
+
+    // Call the recursive helper function to detect cycle in different DFS trees
+    for (int u = 0; u < V; u++)
+        if (!visited[u]) // Don't recur for u if it is already visited
+          if (isCyclicUtil(u, visited, -1))
+             return true;
+
+    return false;
 }
 
 #endif // __GRAPH_DEF_HPP__
