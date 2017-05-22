@@ -20,7 +20,7 @@ void test_case_kruskal_01 () {
     int idv2 = g.insereVertice(v2);
     cout << "id Jamb: " << idv2 << endl;
 
-    Vertice v3("Caçapava");
+    Vertice v3("Cacapava");
     int idv3 = g.insereVertice(v3);
     cout << "id Caçapava: " << idv3 << endl;
 
@@ -57,16 +57,45 @@ void test_case_kruskal_01 () {
         Graph kruskalG = kruskal(g);
 
         kruskalG.imprimeKruskal();
-
-
-
-
-
 }
 
 void test_case_kruskal_02 () {
-    cout << "Test Case Kruskal 02" << endl;
+    cout << "Test Case Kruskal - Nao orientado" << endl;
 
+    Graph g(false);  //grafo orientado
+
+//Insere vertices
+    cout << "================================ Insere vertices ================================"<< endl;
+    Vertice v0("A");
+    int idvA = g.insereVertice(v0);
+
+    Vertice v1("B");
+    int idvB = g.insereVertice(v1);
+
+    Vertice v2("C");
+    int idvC = g.insereVertice(v2);
+
+    Vertice v3("D");
+    int idvD = g.insereVertice(v3);
+
+    Vertice v4("E");
+    int idvE = g.insereVertice(v4);
+
+//Insere arestas
+    cout << "\n================================ Insere arestas ================================"<< endl;
+    g.insereAresta(idvA, idvB, 2);  //insere aresta de A para B com peso 2
+    g.insereAresta(idvA, idvC, 8);
+    g.insereAresta(idvA, idvD, 3);
+    g.insereAresta(idvA, idvE, 5);
+    g.insereAresta(idvE, idvD, 5);
+    g.insereAresta(idvB, idvE, 1);
+
+    g.imprime();
+    cout << "\nTem ciclo: "<< g.graphHasCicle() << endl;
+
+    Graph result = kruskal(g);
+    result.imprime();
+    cout << "\nTem ciclo: "<< result.graphHasCicle() << endl;
 }
 
 #endif // __TEST_CASE_KRUSKAL_HPP__

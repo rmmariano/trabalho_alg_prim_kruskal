@@ -21,9 +21,9 @@ class Graph {
         vector<Aresta> arestas;
         Graph(bool orientado);
         ~Graph(){}
-        int insereVertice(Vertice& v);       //retorna ID do vertice inserido
+        int insereVertice(Vertice& v);              //retorna ID do vertice inserido
         bool removeVertice(unsigned int id_v);      //retorna se foi removido
-        bool verificaVertice(unsigned int id_v);
+        bool verificaVertice(unsigned int id_v);    //retorna se vertice existe
         bool insereAresta(unsigned int  id_v1, unsigned int id_v2, float peso);    //ret false se nao for possivel criar (nó nao existir ou aresta existir)
         Aresta* verificaAresta(unsigned int id_v1, unsigned int id_v2);      //retorna obj da aresta, nullptr se nao existir
         bool removeAresta(unsigned int id_v1, unsigned int id_v2);     //retorna se foi removido
@@ -32,7 +32,7 @@ class Graph {
         bool graphHasCicle(); //verifica se o grafo possui ciclo
         bool dfs(Vertice v); //Busca em profundidade
         void ordenaArestas(); //Ordenação de Arestas
-        vector<vector<Aresta>> getAdjList();
+        vector<vector<Aresta>> getAdjList();    //retorna lista de adjacencia
 
     private:
         bool orientado;
@@ -60,7 +60,7 @@ int Graph::insereVertice(Vertice& v){
     v.id = vertices.size();     //id = posicao do ultimo elemento inserido
     vertices.push_back(v);
 
-    vector<Aresta> arestas;     //vetor de arestas que partem daquele nó
+    vector<Aresta> arestas;     //vetor de arestas que partem do nó inserido
     adjList.push_back(arestas); //adiciona vetor de arestas vazio
 
     numVertices++;
@@ -119,9 +119,9 @@ bool Graph::insereAresta(unsigned int id_v1, unsigned int id_v2, float peso){
     //se grafo nao orientado, insere aresta no sentido contrário
     if(!orientado){
         Aresta a2{id_v2, id_v1, peso};
-        adjList.at(id_v2).push_back(a2);
-        numArestas++;
+        adjList.at(id_v2).push_back(a2);        
         this->arestas.push_back(a2);
+        numArestas++;
     }
 
     return true;
@@ -161,11 +161,19 @@ bool Graph::removeAresta(unsigned int id_v1, unsigned int id_v2){
             }
         }
     }
+
+    //remove aresta do vetor de arestas
     int k = 0;
     for(Aresta a: this->arestas){
         if (id_v1 == a.de && id_v2 == a.para){
             this->arestas.erase(this->arestas.begin()+k);
         }
+
+        //se for nao orientado remove aresta contraria
+        if(!orientado && id_v1 == a.para && id_v2 == a.de){
+            this->arestas.erase(this->arestas.begin()+k);
+        }
+
         k++;
     }
 
@@ -193,87 +201,74 @@ void Graph::imprimeKruskal(){
 }
 
 //Busca em profundidade para avaliar se há ciclo a partir de um Vertice V
-bool Graph::dfs(Vertice v){
- //Pilha de vertices visitados (indice)
- stack<int> visit;
- //Declaração de dois vetores, o primeiro avalia se o vertice foi visitado, o segundo avalia a pilha
- bool visitados[this->numVertices], pilha_v[this->numVertices];
- //laço para inicializar os vetores com false
- for (int k = 0; k < this->numVertices; k++){
-     visitados[k] = false;
-     pilha_v[k] = false;
- }
+bool Graph::dfs(Vertice v){    
+    stack<int> visitar;                         //Pilha de vertices a serem visitados (indice)
+    bool visitado[this->numVertices] {false};   //Indica se o vertice foi visitado, inicializado com false
+    bool empilhado[this->numVertices] {false};  //Indica se vertice esta na pilha
 
- //ID da vertice
- int id_v;
- id_v = v.id;
+    bool temVizinho = false;    //variável de controle para ver se há vizinho
+    int id_destino;     //vertice vizinho
 
- while(true){
-     //variável de controle para ver se há visinho
-     bool temVizinho = false;
+    int id_v = v.id;    //ID do vertice sendo verificado, inicia por v
 
-     //"Se" o vertice atual não foi visitado ainda
-     if(!visitados[id_v]){
-         //empilha e altera os vetores de controle
-         visit.push(id_v);
-         visitados[id_v] = true;
-         pilha_v[id_v] = true;
-     }
-      //vertice vizinho
-      int indexA;
+    //Percore or vértices a partir de v
+    while(true){
+        temVizinho = false;    //variável de controle para ver se há vizinho
 
-     //laço para iterar a lista de ajacencia a partir da vertice V
-     for(Aresta a: adjList.at(id_v)){
-         indexA = a.para;
+        //Se o vertice atual não foi visitado ainda
+        if(!visitado[id_v]){
+            visitar.push(id_v);     //Empilha para visitar depois
+            empilhado[id_v] = true; //Marca como empilhado
+            visitado[id_v] = true;  //Marca como visitado
+        }
 
-         if(pilha_v[indexA]){
-             //"Se" encontrar ciclo
-             return true;
-         }
+        //Percorre lista de arestas do vértice procurando por vizinho que ainda nao foi visitado
+        for(Aresta a: adjList[id_v]){
+            id_destino = a.para;
 
-         else if(!visitados[indexA]){
-             //caso ainda não encontre ciclo, marca que há vizinho e quebra o laço de iteração
-             temVizinho = true;
-             break;
-         }
-       }
+            if(empilhado[id_destino]){  //se o vertice destino esta na pilha
+                return true;    //Encontrou ciclo
+            }
 
-     //se não tem vizinho
-     if(!temVizinho){
-         pilha_v[visit.top()] = false;
-         visit.pop();
-         //Se visitou todos os vizinhos e não encontrou ciclo quebra o While(true)
-         if(visit.empty())
-             break;
-        //atualiza o "v" atual para o ultimo vertice empilhado
-        id_v = visit.top();
-     }
-     else{
-        //caso há vizinho, altera o vertice "v" para o vizinho
-        id_v = indexA;
-     }
- }
- //caso o while seja quebrado sem encontrar ciclo, retorna falso
- return false;
+            else if(!visitado[id_destino]){ //Se o destino ainda não foi visitado
+                temVizinho = true;  //marca que há vizinho e quebra o laço para que ele seja verificado
+                break;
+            }
+        }
 
+        //se não tem vizinho
+        if(!temVizinho){
+            empilhado[visitar.top()] = false;   //pega próximo vértice da pilha para visitar
+            visitar.pop();
+
+            //Se visitou todos os vizinhos e não encontrou ciclo quebra o While(true)
+            if(visitar.empty())
+                break;
+
+            id_v = visitar.top();   //atualiza o "v" atual para o ultimo vertice empilhado
+        } else{
+            id_v = id_destino;      //caso há vizinho, altera o vertice "v" para o vizinho
+        }
+    }
+    //caso o while seja quebrado sem encontrar ciclo, retorna falso
+    return false;
 }
 
 
 //Faz uma verificação no grafo avaliando se há ciclo
 bool Graph::graphHasCicle(){
     for (Vertice v: this->vertices){
-        if(dfs(v)) return true;
+        if(dfs(v)) return true;     //faz busca em profundidade a partir de cada vertice
     }
     return false;
 }
-
 
 
 //Bubble sort para ordenação das arestas por peso
 void Graph::ordenaArestas(){
 
     Aresta temp;
-    for (int k = this->numArestas-1; k <= 0 ; k++){
+    for (int k = this->numArestas-1; k <= 0 ; k--){
         for(int i = 0; i < k; i++){
             if(arestas.at(i).peso > arestas.at(i+1).peso){
                 temp = arestas.at(i);
@@ -282,7 +277,6 @@ void Graph::ordenaArestas(){
             }
         }
     }
-
 }
 
 #endif // __GRAPH_DEF_HPP__

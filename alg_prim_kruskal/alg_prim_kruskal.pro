@@ -8,9 +8,7 @@ CONFIG += c++11
 
 TEMPLATE = app
 
-SOURCES += main.cpp \
-    vertice.cpp \
-    aresta.cpp
+SOURCES += main.cpp
 
 HEADERS += \
     algorithms/kruskal.hpp \

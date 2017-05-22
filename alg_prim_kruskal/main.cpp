@@ -6,7 +6,7 @@
 #include "tests/test_case_prim.hpp"
 
 int main(){
-
+/*
     Graph g(true);  //grafo orientado
 
 //Insere vertices
@@ -37,12 +37,12 @@ int main(){
     g.insereAresta(idvA, idvC, 8);
     g.insereAresta(idvA, idvD, 3);
     g.insereAresta(idvA, idvE, 5);
-    g.insereAresta(idvE, idvA, 5);
+    g.insereAresta(idvE, idvD, 5);
     g.insereAresta(idvB, idvE, 1);
 
     g.imprime();
-    cout << "\n "<< g.graphHasCicle();
-/*
+    cout << "\nTem ciclo: "<< g.graphHasCicle() << endl;
+
 //Verifica aresta
     cout << "\n================================ Verifica aresta ================================"<< endl;
     Aresta *a = g.verificaAresta(idvA, idvD);
@@ -65,17 +65,11 @@ int main(){
 
 */
 
-    test_case_kruskal_01();
-    //test_case_kruskal_02();
-    // outros ...
+    //test_case_kruskal_01();
+    test_case_kruskal_02();
 
-    test_case_prim_01();
-    test_case_prim_02();
-    // outros ...
-
-
-
-
+    //test_case_prim_01();
+    //test_case_prim_02();
 
     return 0;
 }
