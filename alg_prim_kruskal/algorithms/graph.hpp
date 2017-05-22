@@ -42,7 +42,7 @@ class Graph {
         vector< vector<Aresta> > adjList;
 
         // nao permite copia do obj
-        //Graph(Graph&);
+        Graph(Graph&);
         Graph&	operator=(Graph&);
 };
 
