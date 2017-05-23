@@ -41,7 +41,6 @@ void test_case_kruskal_01 () {
     g.insereAresta(idv6, idv1, 90);
     g.insereAresta(idv5, idv6, 27);
 
-    cout << "Original" << endl;
     g.imprime();
     cout << "Tem ciclo: "<< g.isCyclic() << endl << endl;
 

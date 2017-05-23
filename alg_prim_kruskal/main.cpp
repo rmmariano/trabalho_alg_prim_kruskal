@@ -15,6 +15,7 @@ int main(){
 
     test_case_prim_01();
     test_case_prim_02();
+    test_case_prim_03();
 
     return 0;
 }
