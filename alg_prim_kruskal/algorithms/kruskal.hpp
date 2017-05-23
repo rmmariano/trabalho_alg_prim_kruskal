@@ -13,24 +13,23 @@ Graph kruskal(Graph& inicio){
     }
 
     //Copia todos os vertices do grafo original para o novo
-    for(Vertice a: inicio.vertices){
+    for(Vertice a: inicio.vertices)
         gResult.insereVertice(a);
-    }
 
     //Ordena a lista de arestas por peso
     inicio.ordenaArestas();
 
-    //itera as arestas do grafo inicial
+    //Itera as arestas do grafo inicial
     for(Aresta a: inicio.arestas){        
         gResult.insereAresta(a.de, a.para, a.peso);     //insere no novo grafo
 
-        //se surgir ciclos com essa ultima aresta, remove do grafo
+        //se surgir ciclo com essa ultima aresta, remove do grafo
         if(gResult.isCyclic()){
             gResult.removeAresta(a.de, a.para);
         }
     }
 
-    return gResult;     //retorna grafo MST
+    return gResult;     //retorna grafo AGM
 }
 
 #endif // __KRUSKAL_HPP__

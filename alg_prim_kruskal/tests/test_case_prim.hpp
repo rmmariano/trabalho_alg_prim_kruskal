@@ -4,6 +4,7 @@
 #include "../algorithms/prim.hpp"
 
 void test_case_prim_01 () {
+    cout << "\n================================ Prim - Teste 1 ================================"<< endl;
     Graph g(false);
 
     //Vértices
@@ -50,24 +51,16 @@ void test_case_prim_01 () {
     g.insereAresta(idvG, idvE, 9);
     g.insereAresta(idvG, idvF, 11);
 
-    cout << "\n\nComeco execucao Teste 01 Prim\n";
+    g.imprime();
+    cout << "Tem ciclo: "<< g.isCyclic() << endl << endl;
 
-    vector<Aresta> agm = prim(g);
-
-    float soma = 0;
-    int qtd = 0;
-    for(Aresta a : agm){
-        cout << a.de << " -> " << a.para << "\n";
-        soma += a.peso;
-        ++qtd;
-    }
-
-    cout << "Soma da AGM: " << soma << "\n";
-    cout << "Qtd de arestas: " << qtd << "\n";
-    cout << "Fim execucao Teste 01 Prim\n";
+    Graph agm = prim(g);
+    agm.imprime();
+    cout << "Tem ciclo: "<< agm.isCyclic() << endl << endl;
 }
 
 void test_case_prim_02 () {
+    cout << "\n================================ Prim - Teste 2 ================================"<< endl;
     Graph g(false);
 
     //Vértices
@@ -111,22 +104,12 @@ void test_case_prim_02 () {
     g.insereAresta(idvF, idvD, 4);
     g.insereAresta(idvF, idvE, 3);
 
-    cout << "\n\nComeco execucao Teste 02 Prim\n";
+    g.imprime();
+    cout << "Tem ciclo: "<< g.isCyclic() << endl << endl;
 
-    vector<Aresta> agm = prim(g);
-
-    float soma = 0;
-    int qtd = 0;
-    for(Aresta a : agm){
-        cout << a.de << " -> " << a.para << "\n";
-        soma += a.peso;
-        ++qtd;
-    }
-
-    cout << "Soma da AGM: " << soma << "\n";
-    cout << "Qtd de arestas: " << qtd << "\n";
-    cout << "Fim execucao Teste 02 Prim\n";
-
+    Graph agm = prim(g);
+    agm.imprime();
+    cout << "Tem ciclo: "<< agm.isCyclic() << endl << endl;
 }
 
 void test_case_prim_03(){
@@ -161,7 +144,7 @@ void test_case_prim_03(){
     g.imprime();
     cout << "Tem ciclo: "<< g.isCyclic() << endl << endl;
 
-    Graph result = primG(g);
+    Graph result = prim(g);
     result.imprime();
     cout << "Tem ciclo: "<< result.isCyclic() << endl << endl;
 }

@@ -242,7 +242,7 @@ bool Graph::isCyclic(){
 
     // Chama funçao recursiva verificando a partir de todos os vertices
     for (int vertice = 0; vertice < numVertices; vertice++)
-        if (!visited[vertice]) // Don't recur for u if it is already visited
+        if (!visited[vertice])      //Se ainda não foi visitado, visita recursivamente
           if (isCyclicRecursion(vertice, visited, -1))  //vertice inicial, vetor de flags, pai do vertice inicial
              return true;           //Se encontrar ciclo retorna true e interrompe restante da busca
 
