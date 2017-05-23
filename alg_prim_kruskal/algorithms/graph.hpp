@@ -45,7 +45,7 @@ class Graph {
         bool isCyclicRecursion(int v, bool visited[], unsigned int parent);
 
         // nao permite copia do obj
-        Graph(Graph&);
+        //Graph(Graph&);
         Graph&	operator=(Graph&);
 };
 

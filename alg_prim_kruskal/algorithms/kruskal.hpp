@@ -3,7 +3,7 @@
 
 #include "graph.hpp"
 
-Graph kruskal(Graph inicio){
+Graph kruskal(Graph& inicio){
     //Declara o grafo representando a arvore minima geradora
     Graph gResult(false);    //nao orientado
 
@@ -25,8 +25,6 @@ Graph kruskal(Graph inicio){
         gResult.insereAresta(a.de, a.para, a.peso);     //insere no novo grafo
 
         //se surgir ciclos com essa ultima aresta, remove do grafo
-        //cout << "isCycle " << gResult.isCyclic() << endl;
-        //if(gResult.graphHasCicle()){
         if(gResult.isCyclic()){
             gResult.removeAresta(a.de, a.para);
         }
